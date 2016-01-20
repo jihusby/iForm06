@@ -1,0 +1,8 @@
+<resources>
+	<string name="app_name">iForm Prototype</string>
+	<string name="action_settings">Settings</string>
+	<string name="title_activity_day">Training Day</string>
+	<string name="title_activity_exercise">Exercise</string>
+	<string name="startDay">Start Day</string>
+	<string name="startTraining">Start training</string>
+</resources>
