@@ -15,7 +15,7 @@ import static no.husby.iform06.app.R.layout.activity_exercise;
 public class ExerciseActivity extends RoboActivity {
 
     @InjectView(R.id.dayHeader)
-    TextView dayHeader;
+    TextView dayName;
 
     @InjectView(R.id.exerciseName)
     TextView exerciseName;
@@ -30,7 +30,7 @@ public class ExerciseActivity extends RoboActivity {
         String day = (String) extras.get("day");
         String name = (String) extras.get("name");
         exerciseName.setText(name);
-        dayHeader.setText(day);
+        dayName.setText(day);
     }
 
     @Override

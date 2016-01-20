@@ -43,15 +43,15 @@ public class ProgramReader {
 */
 
     private Program createMockProgram() {
-        Program program = new Program("My demo programs");
+        Program program = new Program("My demo program");
         Day day1 = new Day("Dag 1");
         Day day2 = new Day("Dag 2");
-        day1.addExercise(new Exercise(1, "Knebøy"));
-        day1.addExercise(new Exercise(2, "Benkpress"));
-        day1.addExercise(new Exercise(3, "Dips"));
-        day2.addExercise(new Exercise(1, "Markløft"));
-        day2.addExercise(new Exercise(2, "Pullups"));
-        day2.addExercise(new Exercise(3, "Sittende roing"));
+        day1.addExercise(new Exercise(1, "Knebøy", 5, 5));
+        day1.addExercise(new Exercise(2, "Benkpress", 5, 5));
+        day1.addExercise(new Exercise(3, "Dips", 5, 5));
+        day2.addExercise(new Exercise(1, "Markløft", 5, 5));
+        day2.addExercise(new Exercise(2, "Pullups", 5, 5));
+        day2.addExercise(new Exercise(3, "Sittende roing", 5, 5));
 
         program.setDescription("This is a demo program, containing a couple of exercises, a couple of days etc.");
         program.getDays().add(day1);

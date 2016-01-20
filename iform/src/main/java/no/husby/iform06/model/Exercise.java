@@ -4,10 +4,14 @@ public class Exercise {
 
     private int id;
     private String name;
+    private int set;
+    private int reps;
 
-    public Exercise(int id, String name) {
+    public Exercise(int id, String name, int set, int reps) {
         this.id = id;
         this.name = name;
+        this.set = set;
+        this.reps = reps;
 
     }
 
@@ -17,5 +21,13 @@ public class Exercise {
 
     public String getName() {
         return name;
+    }
+
+    public int getReps() {
+        return reps;
+    }
+
+    public int getSet() {
+        return set;
     }
 }

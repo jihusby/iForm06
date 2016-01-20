@@ -27,7 +27,7 @@ public class Day {
         List<String> exerciseNames = new ArrayList<String>(exercises.size());
         int i=0;
         for(Exercise e : exercises) {
-            exerciseNames.add(i, e.getName());
+            exerciseNames.add(i, e.getName() + " " + e.getSet() + " X " + e.getReps());
             i++;
         }
         return exerciseNames;

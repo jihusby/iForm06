@@ -2,14 +2,17 @@ package no.husby.iform06.app;
 
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.google.gson.Gson;
 import no.husby.iform06.data.ProgramReader;
+import no.husby.iform06.model.Day;
 import no.husby.iform06.model.Program;
 import roboguice.activity.RoboActivity;
 import roboguice.inject.ContentView;
@@ -24,8 +27,8 @@ public class MainActivity extends RoboActivity {
     TextView programName;
     @InjectView(R.id.programDescription)
     TextView programDescription;
-    @InjectView(R.id.startDay)
-    Button startDay;
+    @InjectView(R.id.linearLayoutButtons)
+    LinearLayout linearLayoutButtons;
 
     private Program program;
 
@@ -48,8 +51,34 @@ public class MainActivity extends RoboActivity {
         program = new ProgramReader(manager).getProgram(0);
         programName.setText(program.getName());
         programDescription.setText(program.getDescription());
-        startDay.setOnClickListener(startDayListener);
 
+        int i = 0;
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+        );
+        params.setMargins(0, 10, 0, 0);
+        for(final Day d: program.getDays()) {
+            Button button = new Button(this);
+            button.setBackground(getResources().getDrawable(R.drawable.mybutton));
+            button.setLayoutParams(params);
+            button.setBottom(20);
+            button.setId(i);
+            button.setTextColor(Color.WHITE);
+            button.setText("Start " + d.getName());
+
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent dayIntent = new Intent(MainActivity.this, DayActivity.class);
+                    dayIntent.putExtra("day", new Gson().toJson(d));
+                    startActivity(dayIntent);
+                }
+            });
+            linearLayoutButtons.addView(button);
+            i++;
+        }
     }
 
     @Override

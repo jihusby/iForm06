@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import com.google.gson.Gson;
+import no.husby.iform06.model.Day;
 import no.husby.iform06.model.Exercise;
 import no.husby.iform06.model.Program;
 import roboguice.activity.RoboActivity;
@@ -19,6 +20,7 @@ import static no.husby.iform06.app.R.layout.activity_day;
 
 @ContentView(activity_day)
 public class DayActivity extends RoboActivity {
+    private Day day;
 
     @InjectView(R.id.dayName)
     TextView dayName;
@@ -33,12 +35,8 @@ public class DayActivity extends RoboActivity {
         @Override
         public void onClick(View v) {
             Intent exerciseIntent = new Intent(DayActivity.this, ExerciseActivity.class);
-            // TODO: get first exercise from persisted program
-            Exercise exercise = new Exercise(1, "Knebøy");
-
-            exerciseIntent.putExtra("day", "Dag 1");
-            exerciseIntent.putExtra("id", exercise.getId());
-            exerciseIntent.putExtra("name", exercise.getName());
+            String exercise = "";
+            exerciseIntent.putExtra("exercise", exercise);
             startActivity(exerciseIntent);
         }
     };
@@ -47,14 +45,13 @@ public class DayActivity extends RoboActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bundle bundle = this.getIntent().getExtras();
-        String target = getIntent().getStringExtra("program");
+        String target = getIntent().getStringExtra("day");
         if (target != null) {
-            Program program =  new Gson().fromJson(target, Program.class);
-            dayName.setText(program.getDay(0).getName());
+            Day day = new Gson().fromJson(target, Day.class);
+            dayName.setText(day.getName());
 
 
-            List<String> exerciseNames = program.getDay(0).getExerciseNames();
+            List<String> exerciseNames = day.getExerciseNames();
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, exerciseNames);
 
             // Assign adapter to ListView

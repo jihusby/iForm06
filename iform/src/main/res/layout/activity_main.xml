@@ -11,8 +11,10 @@
 	<LinearLayout
 			android:orientation="vertical"
 			android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:layout_alignParentTop="true" android:layout_alignParentLeft="true" android:layout_alignParentStart="true"
-			android:id="@+id/linearLayout">
+			android:layout_weight="1"
+			android:layout_height="wrap_content"
+			android:layout_alignParentTop="true" android:layout_alignParentLeft="true" android:layout_alignParentStart="true"
+			android:id="@+id/linearLayoutProgram">
 		<TextView
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
@@ -24,20 +26,15 @@
 				android:layout_height="wrap_content"
 				android:textAppearance="?android:attr/textAppearanceSmall"
 				android:text=""
-				android:id="@+id/programDescription" android:layout_gravity="center_vertical"/>
+				android:id="@+id/programDescription"
+				android:layout_gravity="center_vertical"/>
 	</LinearLayout>
 	<LinearLayout
-			android:orientation="horizontal"
+			android:orientation="vertical"
 			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:layout_alignParentBottom="true" android:layout_alignParentLeft="true" android:layout_alignParentStart="true">
-		<Button
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:text="@string/startDay"
-				android:textColor="#ffffff"
-				android:background="@drawable/mybutton"
-				android:theme="@style/ButtonsTheme"
-				android:id="@+id/startDay" android:layout_alignParentBottom="true" android:layout_alignParentLeft="true" android:layout_alignParentStart="true"/>
+			android:layout_weight="1"
+			android:layout_height="wrap_content" android:layout_alignParentBottom="true" android:layout_alignParentLeft="true" android:layout_alignParentStart="true"
+			android:id="@+id/linearLayoutButtons">
 	</LinearLayout>
+
 </RelativeLayout>
