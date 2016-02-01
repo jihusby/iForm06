@@ -1,17 +1,28 @@
 package no.husby.iform06.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Exercise {
 
+    @SerializedName("ps")
+    private final int pause;
+    @SerializedName("id")
     private int id;
+    @SerializedName("n")
     private String name;
-    private int set;
-    private int reps;
+    @SerializedName("s")
+    private int setCount;
+    @SerializedName("r")
+    private int repCountMin;
+    private int repCountMax;
 
-    public Exercise(int id, String name, int set, int reps) {
+    public Exercise(int id, String name, int set, int repCountMin, int repCountMax, int pause) {
         this.id = id;
         this.name = name;
-        this.set = set;
-        this.reps = reps;
+        this.setCount = set;
+        this.repCountMin = repCountMin;
+        this.repCountMax = repCountMax;
+        this.pause = pause;
 
     }
 
@@ -23,11 +34,20 @@ public class Exercise {
         return name;
     }
 
-    public int getReps() {
-        return reps;
+    public int getRepCountMin() {
+        return repCountMin;
     }
 
-    public int getSet() {
-        return set;
+    public int getRepCountMax() {
+        return repCountMax;
     }
+
+    public int getSetCount() {
+        return setCount;
+    }
+
+    public int getPause() {
+        return pause;
+    }
+
 }

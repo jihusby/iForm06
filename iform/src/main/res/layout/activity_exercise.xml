@@ -12,46 +12,14 @@
 			android:orientation="vertical"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
+			android:layout_weight="1"
 			android:layout_alignParentLeft="true"
-			android:layout_alignParentStart="true" android:id="@+id/linearLayout3">
+			android:layout_alignParentStart="true" android:id="@+id/linearLayoutExercise">
 
-		<TextView
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:textAppearance="?android:attr/textAppearanceLarge"
-				android:text=""
-				android:id="@+id/dayHeader" android:layout_alignParentTop="true" android:layout_alignParentLeft="true" android:layout_alignParentStart="true"/>
-
-		<TextView
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:textAppearance="?android:attr/textAppearanceLarge"
-				android:text=""
-				android:id="@+id/exerciseName" android:layout_alignParentTop="true" android:layout_alignParentLeft="true" android:layout_alignParentStart="true"/>
-	</LinearLayout>
 	<LinearLayout
-			android:orientation="horizontal"
+			android:id="@+id/fragment_container"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:layout_alignParentBottom="true" android:layout_alignParentLeft="true" android:layout_alignParentStart="true">
-		<Button
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:text="Forrige øvelse"
-				android:layout_weight="1"
-				android:textColor="#ffffff"
-				android:background="@drawable/mybutton"
-				android:theme="@style/ButtonsTheme"
-
-				android:id="@+id/prevExercise" android:layout_marginRight="1dp"/>
-		<Button
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:text="Neste øvelse"
-				android:layout_weight="1"
-				android:textColor="#ffffff"
-				android:background="@drawable/mybutton"
-				android:theme="@style/ButtonsTheme"
-				android:id="@+id/nextExercise" android:layout_marginLeft="1dp"/>
+			android:orientation="vertical" />
 	</LinearLayout>
 </RelativeLayout>

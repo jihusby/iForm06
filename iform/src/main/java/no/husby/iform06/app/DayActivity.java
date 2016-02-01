@@ -8,8 +8,6 @@ import android.view.View;
 import android.widget.*;
 import com.google.gson.Gson;
 import no.husby.iform06.model.Day;
-import no.husby.iform06.model.Exercise;
-import no.husby.iform06.model.Program;
 import roboguice.activity.RoboActivity;
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
@@ -35,8 +33,7 @@ public class DayActivity extends RoboActivity {
         @Override
         public void onClick(View v) {
             Intent exerciseIntent = new Intent(DayActivity.this, ExerciseActivity.class);
-            String exercise = "";
-            exerciseIntent.putExtra("exercise", exercise);
+            exerciseIntent.putExtra("day", new Gson().toJson(day));
             startActivity(exerciseIntent);
         }
     };
@@ -47,7 +44,7 @@ public class DayActivity extends RoboActivity {
 
         String target = getIntent().getStringExtra("day");
         if (target != null) {
-            Day day = new Gson().fromJson(target, Day.class);
+            day = new Gson().fromJson(target, Day.class);
             dayName.setText(day.getName());
 
 

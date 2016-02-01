@@ -1,12 +1,17 @@
 package no.husby.iform06.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Program {
 
+    @SerializedName("n")
     private String name;
+    @SerializedName("d")
     private List<Day> days;
+    @SerializedName("dsc")
     private String description;
 
     public Program(String name) {

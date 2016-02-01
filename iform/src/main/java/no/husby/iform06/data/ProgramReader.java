@@ -1,10 +1,12 @@
 package no.husby.iform06.data;
 
+import android.content.Context;
 import android.content.res.AssetManager;
 import no.husby.iform06.model.Day;
 import no.husby.iform06.model.Exercise;
 import no.husby.iform06.model.Program;
 
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,19 +45,38 @@ public class ProgramReader {
 */
 
     private Program createMockProgram() {
+        int kortPause = 5;
+        int langPause = 10;
         Program program = new Program("My demo program");
-        Day day1 = new Day("Dag 1");
-        Day day2 = new Day("Dag 2");
-        day1.addExercise(new Exercise(1, "Knebøy", 5, 5));
-        day1.addExercise(new Exercise(2, "Benkpress", 5, 5));
-        day1.addExercise(new Exercise(3, "Dips", 5, 5));
-        day2.addExercise(new Exercise(1, "Markløft", 5, 5));
-        day2.addExercise(new Exercise(2, "Pullups", 5, 5));
-        day2.addExercise(new Exercise(3, "Sittende roing", 5, 5));
+        Day day1 = new Day(1, "Dag 1");
+        Day day2 = new Day(2, "Dag 2");
+        Day day3 = new Day(3, "Dag 3");
+        Day day4 = new Day(4, "Dag 4");
+        Day day5 = new Day(5, "Dag 5");
+        day1.addExercise(new Exercise(1, "Markløft", 3, 3, 5, langPause));
+        day1.addExercise(new Exercise(2, "Pullups", 2, 6, 10, langPause));
+        day1.addExercise(new Exercise(3, "Assisted chins", 2, 6, 10, langPause));
+        day1.addExercise(new Exercise(4, "Benkpress", 3, 3, 5, langPause));
+        day1.addExercise(new Exercise(5, "Dips", 2, 6, 10, langPause));
+        day1.addExercise(new Exercise(6, "Arnoldpress", 3, 6, 10, langPause));
+        day1.addExercise(new Exercise(6, "Hammercurl", 3, 6, 10, langPause));
+        day1.addExercise(new Exercise(7, "Franskpress", 3, 6, 10, langPause));
 
-        program.setDescription("This is a demo program, containing a couple of exercises, a couple of days etc.");
+        day2.addExercise(new Exercise(1, "Knebøy", 3, 3, 5, langPause));
+        day2.addExercise(new Exercise(2, "Beinpress", 2, 6, 10, langPause));
+        day2.addExercise(new Exercise(3, "Utspark", 2, 6, 10, langPause));
+        day2.addExercise(new Exercise(4, "Strake markløft", 3, 5, 8, langPause));
+        day2.addExercise(new Exercise(5, "Dips", 2, 6, 10, langPause));
+        day2.addExercise(new Exercise(6, "Liggende lårcurl", 2, 6, 10, langPause));
+        day2.addExercise(new Exercise(6, "Stående tåhev", 2, 6, 10, langPause));
+        day2.addExercise(new Exercise(7, "Sittende tåhev", 2, 6, 10, langPause));
+
+        program.setDescription("5-split program, brukes høsten 2015-våren 2016.");
         program.getDays().add(day1);
         program.getDays().add(day2);
+        program.getDays().add(day3);
+        program.getDays().add(day4);
+        program.getDays().add(day5);
         return program;
     }
 
