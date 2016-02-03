@@ -8,6 +8,7 @@ import android.text.InputType;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -39,7 +40,6 @@ public class ExerciseResultFragment extends RoboFragment {
     Button nextExercise;
 
     private ViewGroup container;
-    private Exercise exercise;
     private ExerciseResult exerciseResult;
 
 
@@ -54,21 +54,20 @@ public class ExerciseResultFragment extends RoboFragment {
         Bundle a = getArguments();
 
         if(a != null) {
-            exercise = new Gson().fromJson(a.getString("exercise"), Exercise.class);
-            exerciseName.setText(exercise.getName() + " " + exercise.getSetCount() + " X " + exercise.getRepCountMin() + "-" + exercise.getRepCountMax());
-            exerciseResult = new Gson().fromJson(a.getString("exerciseResult"), ExerciseResult.class);
+            exerciseResult = new Gson().fromJson(a.getString(getResources().getString(R.string.exerciseResult)), ExerciseResult.class);
+            exerciseName.setText(a.getString(getResources().getString(R.string.exerciseHeader)));
 
             // TODO: Get data from previous trainingresult
             String w = String.valueOf(exerciseResult.getWeight());
             weight.setText(w, TextView.BufferType.EDITABLE);
-            drawSetList(exercise.getSetCount(), exerciseResult);
+            drawSetList(exerciseResult.getReps().length, exerciseResult);
             drawNavigationButtons();
         }
     }
 
     private void drawNavigationButtons() {
-        prevExercise.setOnClickListener(buildNavigationButtonListener(exercise, exerciseResult, Direction.PREV));
-        nextExercise.setOnClickListener(buildNavigationButtonListener(exercise, exerciseResult, Direction.NEXT));
+        prevExercise.setOnClickListener(buildNavigationButtonListener(exerciseResult, Direction.PREV));
+        nextExercise.setOnClickListener(buildNavigationButtonListener(exerciseResult, Direction.NEXT));
     }
 
     @Override
@@ -78,18 +77,16 @@ public class ExerciseResultFragment extends RoboFragment {
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_exercise_result, container, false);
-
     }
 
-    private View.OnClickListener buildNavigationButtonListener(final Exercise exercise, final ExerciseResult exerciseResult, final Direction direction) {
+    private View.OnClickListener buildNavigationButtonListener(final ExerciseResult exerciseResult, final Direction direction) {
         final View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try{
-                    ((OnExerciseChangedListener) getActivity()).onExerciseChanged(exercise, exerciseResult, direction);
+                    ((OnExerciseChangedListener) getActivity()).onExerciseChanged(exerciseResult, direction);
                 }
                 catch (ClassCastException cce){
-
                 }
             }
         };
@@ -102,7 +99,6 @@ public class ExerciseResultFragment extends RoboFragment {
             int defaultValue = exerciseResult.getRepAt(i);
             drawSetRow(i, defaultValue);
         }
-        Log.d("---", "----");
     }
 
     public void drawSetRow(int index, final int defaultValue) {
@@ -113,7 +109,7 @@ public class ExerciseResultFragment extends RoboFragment {
         final EditText numOfReps = buildEditText(index, defaultValue);
         final Button button = buildButton();
 
-        button.setOnClickListener(buildOnClickListener(numOfReps, rowLayoutContainer, button, exercise.getPause()));
+        button.setOnClickListener(buildOnClickListener(numOfReps, rowLayoutContainer, button, exerciseResult.getPause()));
 
         numOfReps.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -174,13 +170,14 @@ public class ExerciseResultFragment extends RoboFragment {
         button.setLayoutParams(params);
         button.setTextColor(Color.WHITE);
         button.bringToFront();
-        button.setText("Pause");
+        button.setText(getResources().getString(R.string.pause));
         return button;
     }
 
     private EditText buildEditText(int index, int defaultValue) {
         final EditText editText = new EditText(getActivity());
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(250, 200);
+        params.weight = 1.0f;
         editText.setTextSize(TypedValue.COMPLEX_UNIT_SP,18);
         editText.setLayoutParams(params);
         editText.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -193,6 +190,6 @@ public class ExerciseResultFragment extends RoboFragment {
     }
 
     public interface OnExerciseChangedListener {
-        public void onExerciseChanged(Exercise exercise, ExerciseResult exerciseResult, Direction direction);
+        public void onExerciseChanged(ExerciseResult exerciseResult, Direction direction);
     }
 }

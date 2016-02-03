@@ -31,13 +31,14 @@
 						android:layout_weight="1"
 						android:textAppearance="?android:attr/textAppearanceLarge"
 						android:theme="@style/BigLabel"
-						android:text="Weight"
+						android:text="@string/weight"
 						android:id="@+id/weightLabel" android:singleLine="true"/>
 				<EditText
 						android:layout_width="98dp"
 						android:layout_height="wrap_content"
 						android:layout_weight="1"
 						android:textAppearance="?android:attr/textAppearanceLarge"
+						android:inputType="numberDecimal"
 						android:text=""
 						android:background="@drawable/myedittext"
 						android:theme="@style/ButtonsTheme"

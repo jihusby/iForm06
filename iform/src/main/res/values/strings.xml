@@ -1,11 +1,16 @@
 <resources>
-	<string name="app_name">iForm Prototype</string>
+	<string name="app_name">iForm</string>
 	<string name="action_settings">Settings</string>
 	<string name="title_activity_day">Training Day</string>
 	<string name="title_activity_exercise">Exercise</string>
 	<string name="startDay">Start Day</string>
 	<string name="startTraining">Start training</string>
+	<string name="pause">Pause</string>
+	<string name="facebook_app_id">1740261819530535</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-	<string name="hello_blank_fragment">Hello blank fragment</string>
+	<string name="exerciseResult">exerciseResult</string>
+	<string name="exerciseHeader">exerciseHeader</string>
+	<string name="day">day</string>
+	<string name="title_activity_statistics">Statistics</string>
+	<string name="weight">Weight</string>
 </resources>

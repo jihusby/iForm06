@@ -1,11 +1,8 @@
 package no.husby.iform06.app;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -14,10 +11,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.facebook.*;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.gson.Gson;
 import no.husby.iform06.data.ProgramReader;
 import no.husby.iform06.model.Day;
 import no.husby.iform06.model.Program;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import roboguice.activity.RoboActivity;
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
@@ -33,8 +36,14 @@ public class MainActivity extends RoboActivity {
     TextView programDescription;
     @InjectView(R.id.linearLayoutButtons)
     LinearLayout linearLayoutButtons;
+    @InjectView(R.id.linearLayoutProgram)
+    LinearLayout linearLayoutProgram;
 
+    private CallbackManager callbackManager;
     private Program program;
+    private AssetManager manager;
+    private AccessToken accessToken;
+    private AccessTokenTracker accessTokenTracker;
 
     private View.OnClickListener startDayListener = new View.OnClickListener() {
         @Override
@@ -44,45 +53,94 @@ public class MainActivity extends RoboActivity {
             startActivity(dayIntent);
         }
     };
-    private AssetManager manager;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Logs 'install' and 'app activate' App Events.
+        AppEventsLogger.activateApp(this);
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // Logs 'app
+        // deactivate' App Event.
+        AppEventsLogger.deactivateApp(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        FacebookSdk.sdkInitialize(this.getApplicationContext());
         super.onCreate(savedInstanceState);
 
-        manager = getAssets();
-        program = new ProgramReader(manager).getProgram(0);
-        programName.setText(program.getName());
-        programDescription.setText(program.getDescription());
+        accessToken = null;
 
-        int i = 0;
+        setExerciseProgram(accessToken);
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT
-        );
-        params.setMargins(0, 10, 0, 0);
-        for(final Day d: program.getDays()) {
-            Button button = new Button(this);
-            button.setBackground(getResources().getDrawable(R.drawable.mybutton));
-            button.setLayoutParams(params);
-            button.setBottom(20);
-            button.setId(i);
-            button.setTextColor(Color.WHITE);
-            button.setText("Start " + d.getName());
+        // Other app specific specialization
 
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent dayIntent = new Intent(MainActivity.this, DayActivity.class);
-                    dayIntent.putExtra("day", new Gson().toJson(d));
-                    startActivity(dayIntent);
-                }
-            });
-            linearLayoutButtons.addView(button);
-            i++;
-        }
+        // Callback registration
+
+        callbackManager = CallbackManager.Factory.create();
+        LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
+        loginButton.setReadPermissions("user_friends");
+
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                accessToken = loginResult.getAccessToken();
+                setExerciseProgram(accessToken);
+                GraphRequest request = GraphRequest.newMeRequest(
+                        accessToken,
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(
+                                    JSONObject object,
+                                    GraphResponse response) {
+
+
+                                JSONArray r = response.getJSONArray();
+                                JSONObject o = response.getJSONObject();
+                                TextView name = new TextView(getApplicationContext());
+                                name.setText("argh");
+                                linearLayoutProgram.addView(name);
+                            }
+                        });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,link");
+                request.setParameters(parameters);
+                request.executeAsync();
+            }
+
+            @Override
+            public void onCancel() {
+                Log.d("LOGIN CANCEL", "LOGIN CANCEL");
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                Log.d("LOGIN ERROR", "LOGIN ERROR");
+                exception.printStackTrace();
+            }
+        });
+
+        accessTokenTracker = new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken,
+                                                       AccessToken currentAccessToken) {
+                setExerciseProgram(currentAccessToken);
+            }
+        };
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -105,5 +163,62 @@ public class MainActivity extends RoboActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setExerciseProgram(AccessToken token) {
+        int containerId = 999;
+        LinearLayout container = new LinearLayout(getApplicationContext());
+        container.setOrientation(LinearLayout.VERTICAL);
+
+        container.setId(containerId);
+        LinearLayout.LayoutParams containerParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+
+        container.setLayoutParams(containerParams);
+        if(token != null) {
+
+            // TODO: Find the user's program
+            manager = getAssets();
+            program = new ProgramReader(manager).getProgram(0);
+            programName.setText(program.getName());
+            programDescription.setText(program.getDescription());
+
+            if(linearLayoutButtons.findViewById(containerId) == null) {
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+
+                params.setMargins(0, 10, 0, 0);
+                int i = 0;
+                for (final Day d : program.getDays()) {
+                    Button button = new Button(this);
+                    button.setBackground(getResources().getDrawable(R.drawable.mybutton));
+                    button.setLayoutParams(params);
+                    button.setBottom(20);
+                    button.setId(i);
+                    button.setTextColor(Color.WHITE);
+                    button.setText("Start " + d.getName());
+
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent dayIntent = new Intent(MainActivity.this, DayActivity.class);
+                            dayIntent.putExtra(getResources().getString(R.string.day), new Gson().toJson(d));
+                            startActivity(dayIntent);
+                        }
+                    });
+                    container.addView(button);
+                    i++;
+                }
+                linearLayoutButtons.addView(container);
+            }
+        }else {
+            if(linearLayoutButtons!=null) {
+                linearLayoutButtons.removeAllViews();
+                programName.setText("");
+                programDescription.setText("");
+            }
+        }
+
     }
 }

@@ -6,6 +6,8 @@ public class Exercise {
 
     @SerializedName("ps")
     private final int pause;
+    @SerializedName("tr")
+    private final String track;
     @SerializedName("id")
     private int id;
     @SerializedName("n")
@@ -16,13 +18,14 @@ public class Exercise {
     private int repCountMin;
     private int repCountMax;
 
-    public Exercise(int id, String name, int set, int repCountMin, int repCountMax, int pause) {
+    public Exercise(int id, String name, int set, int repCountMin, int repCountMax, int pause, String track) {
         this.id = id;
         this.name = name;
         this.setCount = set;
         this.repCountMin = repCountMin;
         this.repCountMax = repCountMax;
         this.pause = pause;
+        this.track = track;
 
     }
 
@@ -48,6 +51,10 @@ public class Exercise {
 
     public int getPause() {
         return pause;
+    }
+
+    public String getTrack() {
+        return track;
     }
 
 }

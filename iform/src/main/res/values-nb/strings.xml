@@ -1,0 +1,15 @@
+<resources>
+	<string name="app_name">iForm</string>
+	<string name="action_settings">Innstillinger</string>
+	<string name="title_activity_day">Treningsdag</string>
+	<string name="title_activity_exercise">Øvelse</string>
+	<string name="startDay">Start dag</string>
+	<string name="startTraining">Start trening</string>
+	<string name="pause">Pause</string>
+	<string name="facebook_app_id">1740261819530535</string>
+	<string name="exerciseResult">exerciseResult</string>
+	<string name="exerciseHeader">exerciseHeader</string>
+	<string name="day">day</string>
+	<string name="title_activity_statistics">Statistikk</string>
+	<string name="weight">Vekt</string>
+</resources>

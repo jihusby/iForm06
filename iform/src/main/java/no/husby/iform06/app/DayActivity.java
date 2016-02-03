@@ -42,7 +42,7 @@ public class DayActivity extends RoboActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String target = getIntent().getStringExtra("day");
+        String target = getIntent().getStringExtra(getResources().getString(R.string.day));
         if (target != null) {
             day = new Gson().fromJson(target, Day.class);
             dayName.setText(day.getName());

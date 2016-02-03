@@ -6,8 +6,6 @@ import java.util.Date;
 
 public class ExerciseResult {
 
-    @SerializedName("d")
-    private final long datePerformed;
     @SerializedName("p")
     private final int pause;
     @SerializedName("eid")
@@ -19,7 +17,6 @@ public class ExerciseResult {
 
     public ExerciseResult(Exercise exercise) {
         exerciseId = exercise.getId();
-        datePerformed = new Date().getTime();
         reps = new int[exercise.getSetCount()];
         pause = exercise.getPause();
     }
@@ -31,8 +28,8 @@ public class ExerciseResult {
         this.reps[repIndex] = reps;
     }
 
-    public long getDatePerformed() {
-        return datePerformed;
+    public int getPause() {
+        return pause;
     }
 
     public int getExerciseId() {
@@ -50,4 +47,10 @@ public class ExerciseResult {
     public int getRepAt(int index) {
         return reps[index];
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(this.exerciseId);
+    }
+
 }

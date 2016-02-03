@@ -39,24 +39,26 @@ public class Day {
         return exerciseNames;
     }
 
-    public Exercise getExercise(int index) {
+    public Exercise getExerciseAt(int index) {
         return exercises.get(index);
     }
 
-    public int getIndex(Exercise e) {
-        if (e != null) {
-            int i = 0;
-
-            for (Exercise exercise : exercises) {
-                if (e.getId() == exercise.getId()) {
-                    return i;
-
-                }
-                i++;
+    public int getIndex(int exerciseId) {
+        for (Exercise exercise : exercises) {
+            if (exerciseId == exercise.getId()) {
+                return exercises.indexOf(exercise);
             }
-            return -1;
         }
         return -1;
+    }
+
+    public Exercise getExercise(int exerciseId) {
+        for (Exercise exercise : exercises) {
+            if (exerciseId == exercise.getId()) {
+                return exercise;
+            }
+        }
+        return null;
     }
 
     public int getId() {

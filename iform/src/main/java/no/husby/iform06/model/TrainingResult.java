@@ -8,15 +8,16 @@ import java.util.List;
 
 public class TrainingResult {
 
+    @SerializedName("dp")
+    private final long datePerformed;
     @SerializedName("did")
     private int dayId;
-    @SerializedName("dt")
-    private String date;
     @SerializedName("rs")
     private List<ExerciseResult> exerciseResults;
 
-    public TrainingResult(Day day) {
-        setDateString();
+    public TrainingResult(Day day, long datePerformed) {
+        super();
+        this.datePerformed = datePerformed;
         this.dayId = day.getId();
         exerciseResults = new ArrayList<ExerciseResult>();
         for(Exercise e: day.getExercises()) {
@@ -24,42 +25,24 @@ public class TrainingResult {
         }
     }
 
-    private void setDateString() {
-        date = Utils.getDateString();
+    public long getDatePerformed() {
+        return datePerformed;
     }
 
     public int getDayId() {
         return dayId;
     }
 
-    public String getDateString() {
-        return date;
-    }
-
     public void setResultAt(int index, ExerciseResult exerciseResult) {
         exerciseResults.set(index, exerciseResult);
     }
 
-    public ExerciseResult getExerciseResult(int index) {
+    public ExerciseResult getExerciseResultByIndex(int index) {
         return exerciseResults.get(index);
     }
 
-    public ExerciseResult getExerciseResult(Exercise exercise) {
-        if(null!=exercise) {
-            int i = 0;
-            for(ExerciseResult r: exerciseResults) {
-                if(r!=null){
-                    if(r.getExerciseId() == exercise.getId()) {
-                        return exerciseResults.get(i);
-                    }
-                }
-                i++;
-            }
-        }
-        return null;
-    }
-
-    public List<ExerciseResult> getExerciseResults() {
-        return exerciseResults;
+    @Override
+    public String toString() {
+        return String.valueOf(this.dayId);
     }
 }
