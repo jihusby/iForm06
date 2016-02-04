@@ -12,4 +12,5 @@
 	<string name="day">day</string>
 	<string name="title_activity_statistics">Statistikk</string>
 	<string name="weight">Vekt</string>
+	<string name="exerciseName">Øvelse</string>
 </resources>

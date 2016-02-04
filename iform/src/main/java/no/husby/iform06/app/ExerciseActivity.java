@@ -98,6 +98,7 @@ public class ExerciseActivity extends RoboFragmentActivity implements ExerciseRe
         if(nextResult != null) {
             openExerciseFragment(nextResult);
         }else {
+            Spotify.destroyPlayer(this);
             openStatisticsActivity();
         }
     }
@@ -150,10 +151,8 @@ public class ExerciseActivity extends RoboFragmentActivity implements ExerciseRe
     }
 
     public TrainingLogItem getJson(String filename) {
-
         String result = null;
         try {
-
             FileInputStream inputStream = openFileInput(filename);
             result = Utils.readJsonFromInputStream(inputStream);
         } catch (IOException e) {

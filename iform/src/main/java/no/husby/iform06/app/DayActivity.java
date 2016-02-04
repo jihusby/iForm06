@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.*;
 import com.google.gson.Gson;
 import no.husby.iform06.model.Day;
+import roboguice.RoboGuice;
 import roboguice.activity.RoboActivity;
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
@@ -18,6 +19,7 @@ import static no.husby.iform06.app.R.layout.activity_day;
 
 @ContentView(activity_day)
 public class DayActivity extends RoboActivity {
+
     private Day day;
 
     @InjectView(R.id.dayName)

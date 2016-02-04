@@ -13,4 +13,6 @@
 	<string name="day">day</string>
 	<string name="title_activity_statistics">Statistics</string>
 	<string name="weight">Weight</string>
+	<string name="exerciseName">Exercise</string>
+
 </resources>

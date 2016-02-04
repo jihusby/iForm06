@@ -19,7 +19,9 @@ import com.google.gson.Gson;
 import no.husby.iform06.data.ProgramReader;
 import no.husby.iform06.model.Day;
 import no.husby.iform06.model.Program;
+import no.husby.iform06.model.User;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import roboguice.activity.RoboActivity;
 import roboguice.inject.ContentView;
@@ -53,6 +55,7 @@ public class MainActivity extends RoboActivity {
             startActivity(dayIntent);
         }
     };
+    private User user;
 
     @Override
     protected void onResume() {
@@ -77,13 +80,12 @@ public class MainActivity extends RoboActivity {
         FacebookSdk.sdkInitialize(this.getApplicationContext());
         super.onCreate(savedInstanceState);
 
-        accessToken = null;
-
-        setExerciseProgram(accessToken);
+        setExerciseProgram();
 
         // Other app specific specialization
 
         // Callback registration
+
 
         callbackManager = CallbackManager.Factory.create();
         LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
@@ -93,7 +95,7 @@ public class MainActivity extends RoboActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 accessToken = loginResult.getAccessToken();
-                setExerciseProgram(accessToken);
+                setExerciseProgram();
                 GraphRequest request = GraphRequest.newMeRequest(
                         accessToken,
                         new GraphRequest.GraphJSONObjectCallback() {
@@ -102,12 +104,17 @@ public class MainActivity extends RoboActivity {
                                     JSONObject object,
                                     GraphResponse response) {
 
-
-                                JSONArray r = response.getJSONArray();
                                 JSONObject o = response.getJSONObject();
-                                TextView name = new TextView(getApplicationContext());
-                                name.setText("argh");
-                                linearLayoutProgram.addView(name);
+                                try {
+
+                                    String name = (String) o.get("name");
+                                    String id = (String) o.get("id");
+                                    user = new User(name, id);
+                                    setExerciseProgram();
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         });
                 Bundle parameters = new Bundle();
@@ -132,7 +139,7 @@ public class MainActivity extends RoboActivity {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken,
                                                        AccessToken currentAccessToken) {
-                setExerciseProgram(currentAccessToken);
+                setExerciseProgram();
             }
         };
     }
@@ -165,7 +172,7 @@ public class MainActivity extends RoboActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void setExerciseProgram(AccessToken token) {
+    public void setExerciseProgram() {
         int containerId = 999;
         LinearLayout container = new LinearLayout(getApplicationContext());
         container.setOrientation(LinearLayout.VERTICAL);
@@ -174,11 +181,11 @@ public class MainActivity extends RoboActivity {
         LinearLayout.LayoutParams containerParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
         container.setLayoutParams(containerParams);
-        if(token != null) {
+        if(accessToken != null && user != null) {
 
             // TODO: Find the user's program
             manager = getAssets();
-            program = new ProgramReader(manager).getProgram(0);
+            program = new ProgramReader(manager).getProgram(this, user);
             programName.setText(program.getName());
             programDescription.setText(program.getDescription());
 

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import com.google.gson.Gson;
+import com.google.inject.Inject;
 import no.husby.iform06.model.TrainingLogItem;
 import roboguice.fragment.RoboFragment;
 import roboguice.inject.ContentView;

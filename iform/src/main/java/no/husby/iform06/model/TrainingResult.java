@@ -19,7 +19,7 @@ public class TrainingResult {
         super();
         this.datePerformed = datePerformed;
         this.dayId = day.getId();
-        exerciseResults = new ArrayList<ExerciseResult>();
+        exerciseResults = new ArrayList<>();
         for(Exercise e: day.getExercises()) {
             exerciseResults.add(new ExerciseResult(e));
         }

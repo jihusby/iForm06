@@ -15,7 +15,7 @@ public class Day {
     public Day(int id, String name) {
         this.id = id;
         this.name = name;
-        exercises = new ArrayList<Exercise>();
+        exercises = new ArrayList<>();
     }
 
     public void addExercise(Exercise exercise) {
@@ -30,7 +30,7 @@ public class Day {
     }
 
     public List<String> getExerciseNames() {
-        List<String> exerciseNames = new ArrayList<String>(exercises.size());
+        List<String> exerciseNames = new ArrayList<>(exercises.size());
         int i=0;
         for(Exercise e : exercises) {
             exerciseNames.add(i, e.getName() + " " + e.getSetCount() + " X " + e.getRepCountMin());
